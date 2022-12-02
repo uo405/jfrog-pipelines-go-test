@@ -1,61 +1,45 @@
-# This config file is templatized so that it can be easily customized. Values can be provided with a values.yml at the root of this repository
 template: true   # required for local templates
 valuesFilePath: ./values.yml
 
 resources:
-  # Sample Go app in a GitRepo
-  - name: go_repo
+  - name: npm_repo_jfp_example
     type: GitRepo
     configuration:
-      path: {{ .Values.repoPath }}
+      # SCM integration where the repository is located
+      gitProvider: {{ .Values.myRepo.gitProvider }}
+      # Repository path, including org name/repo name
+      path: {{ .Values.myRepo.path }}
       branches:
-        include: main
-      gitProvider: {{ .Values.gitProvider }}
+        # Specifies which branches will trigger dependent steps
+        include: master
 
-  # Build info for the published Go app
-  - name: go_buildinfo
+  - name: npm_buildinfo_jfp_example
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.artifactory }}
-
+      sourceArtifactory: demoArt
 
 pipelines:
-  - name: go_build_pipeline_example
-    configuration:
-      jfrogCliVersion: 2  
+  - name: npm_pipeline_jfp_example
     steps:
-      # New code added
-      - name: Run_markdown_lint
-        run: |
-          npm install remark-cli remark-preset-lint-consistent
-          npx remark . --use remark-preset-lint-consistent --frail
-      # Build the Go sample app from the GitRepo. Docs at https://www.jfrog.com/confluence/display/JFROG/GoBuild
-   #   - name: build_go
-   #     type: GoBuild
-   #     configuration:
-   #       sourceLocation: .
-   #       resolverRepo: go-virtual
-   #       noRegistry: true
-   #       inputResources:
-   #         - name: go_repo
-   #       integrations:
-   #         - name: {{ .Values.artifactory }}
+      - name: npm_build_step
+        type: NpmBuild
+        configuration:
+          repositoryName: npm-virtual      # required, npm repository name on artifacctory
+          sourceLocation: .      # required, location of package.json file
+          integrations:
+            - name:  demoArt  # required
+          inputResources:
+            - name: npm_repo_jfp_example         # required
 
-      # Publish the Go sample app binary to Artifactory. Docs at https://www.jfrog.com/confluence/display/JFROG/GoPublishBinary
-   #   - name: publish_go_binary
-   #     type: GoPublishBinary
-   #     configuration:
-   #       inputSteps:
-   #         - name: build_go
-   #       targetRepository: go-local
-   #       integrations:
-   #         - name: {{ .Values.artifactory }}
-
-      # Publish the Go sample app build info. Docs at https://www.jfrog.com/confluence/display/JFROG/PublishBuildInfo
-   #   - name: publish_build
-   #     type: PublishBuildInfo
-   #     configuration:
-   #       inputSteps:
-   #         - name: publish_go_binary
-   #       outputResources:
-   #         - name: go_buildinfo
+      - name: npm_publish_step
+        type: NpmPublish
+        configuration:
+          # for payloadType npm:
+          repositoryName: npm-virtual        # required, npm repository name on artifactory
+          autoPublishBuildInfo: true       # optional
+          integrations:
+            - name: demoArt      # required
+          inputSteps:
+            - name: npm_build_step                # required
+          outputResources:
+            - name: npm_buildinfo_jfp_example                 # optional
