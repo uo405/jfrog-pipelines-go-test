@@ -16,7 +16,7 @@ resources:
   - name: npm_buildinfo_jfp_example
     type: BuildInfo
     configuration:
-      sourceArtifactory: demoArt
+      sourceArtifactory: POC_Integration
 
 pipelines:
   - name: npm_pipeline_jfp_example
@@ -24,7 +24,7 @@ pipelines:
       - name: npm_build_step
         type: NpmBuild
         configuration:
-          repositoryName: npm-virtual      # required, npm repository name on artifacctory
+          repositoryName: SDLC-1st-poc-repo      # required, npm repository name on artifacctory
           sourceLocation: .      # required, location of package.json file
           integrations:
             - name:  demoArt  # required
@@ -35,7 +35,7 @@ pipelines:
         type: NpmPublish
         configuration:
           # for payloadType npm:
-          repositoryName: npm-virtual        # required, npm repository name on artifactory
+          repositoryName: SDLC-1st-poc-repo        # required, npm repository name on artifactory
           autoPublishBuildInfo: true       # optional
           integrations:
             - name: demoArt      # required
