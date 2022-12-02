@@ -16,7 +16,7 @@ resources:
   - name: npm_buildinfo_jfp_example
     type: BuildInfo
     configuration:
-      sourceArtifactory: POC_Integration
+      sourceArtifactory: POC_Art_Integration
 
 pipelines:
   - name: npm_pipeline_jfp_example
@@ -27,7 +27,7 @@ pipelines:
           repositoryName: SDLC-1st-poc-repo      # required, npm repository name on artifacctory
           sourceLocation: .      # required, location of package.json file
           integrations:
-            - name:  POC_Integration  # required
+            - name:  POC_Art_Integration  # required
           inputResources:
             - name: npm_repo_jfp_example         # required
 
@@ -38,7 +38,7 @@ pipelines:
           repositoryName: SDLC-1st-poc-repo        # required, npm repository name on artifactory
           autoPublishBuildInfo: true       # optional
           integrations:
-            - name: POC_Integration      # required
+            - name: POC_Art_Integration      # required
           inputSteps:
             - name: npm_build_step                # required
           outputResources:
