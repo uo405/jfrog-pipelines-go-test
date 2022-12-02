@@ -24,33 +24,38 @@ pipelines:
     configuration:
       jfrogCliVersion: 2  
     steps:
+      # New code added
+      - name: Run_markdown_lint
+        run: |
+          npm install remark-cli remark-preset-lint-consistent
+          npx remark . --use remark-preset-lint-consistent --frail
       # Build the Go sample app from the GitRepo. Docs at https://www.jfrog.com/confluence/display/JFROG/GoBuild
-      - name: build_go
-        type: GoBuild
-        configuration:
-          sourceLocation: .
-          resolverRepo: go-virtual
-          noRegistry: true
-          inputResources:
-            - name: go_repo
-          integrations:
-            - name: {{ .Values.artifactory }}
+   #   - name: build_go
+   #     type: GoBuild
+   #     configuration:
+   #       sourceLocation: .
+   #       resolverRepo: go-virtual
+   #       noRegistry: true
+   #       inputResources:
+   #         - name: go_repo
+   #       integrations:
+   #         - name: {{ .Values.artifactory }}
 
       # Publish the Go sample app binary to Artifactory. Docs at https://www.jfrog.com/confluence/display/JFROG/GoPublishBinary
-      - name: publish_go_binary
-        type: GoPublishBinary
-        configuration:
-          inputSteps:
-            - name: build_go
-          targetRepository: go-local
-          integrations:
-            - name: {{ .Values.artifactory }}
+   #   - name: publish_go_binary
+   #     type: GoPublishBinary
+   #     configuration:
+   #       inputSteps:
+   #         - name: build_go
+   #       targetRepository: go-local
+   #       integrations:
+   #         - name: {{ .Values.artifactory }}
 
       # Publish the Go sample app build info. Docs at https://www.jfrog.com/confluence/display/JFROG/PublishBuildInfo
-      - name: publish_build
-        type: PublishBuildInfo
-        configuration:
-          inputSteps:
-            - name: publish_go_binary
-          outputResources:
-            - name: go_buildinfo
+   #   - name: publish_build
+   #     type: PublishBuildInfo
+   #     configuration:
+   #       inputSteps:
+   #         - name: publish_go_binary
+   #       outputResources:
+   #         - name: go_buildinfo
