@@ -1,6 +1,6 @@
 {
   "name": "buildinfo",
-  "description": "",
+  "description": "Testing build info deployment",
   "version": "1.0.0",
   "scripts": {
     "test": "echo "Error: This is a dummy build info file" && exit 1"
