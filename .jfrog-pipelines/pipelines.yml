@@ -25,7 +25,7 @@ pipelines:
         type: NpmBuild
         configuration:
           repositoryName: SDLC-1st-poc-repo      # required, npm repository name on artifacctory
-          sourceLocation: .      # required, location of package.json file
+          sourceLocation: ./SDLC-1st-poc-repo      # required, location of package.json file
           integrations:
             - name:  POC_Art_Integration  # required
           inputResources:
