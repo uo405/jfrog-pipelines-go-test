@@ -3,17 +3,17 @@
   "description": "Testing build info deployment",
   "version": "1.0.0",
   "scripts": {
-    "test": "echo "Error: This is a dummy build info file" && exit 1"
+    "test": "echo "Error: This is a dummy build info file" && exit 1",
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/uo405/ArtifactoryPOC"
+    "url": "https://github.com/uo405/ArtifactoryPOC",
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/uo405/ArtifactoryPOC/blob/main"
+    "url": "https://github.com/uo405/ArtifactoryPOC/blob/main",
   },
   "homepage": "https://github.com/uo405/ArtifactoryPOC",
 }
